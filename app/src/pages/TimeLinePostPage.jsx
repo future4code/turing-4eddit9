@@ -1,5 +1,8 @@
 import React from 'react'
 
+import CardPost from '../components/CardPost';
+
+
 
 
 
@@ -7,5 +10,6 @@ import React from 'react'
 
 export default props =>{
 
-    return <h1>Posts</h1>
+    return <CardPost></CardPost>
+
 }
