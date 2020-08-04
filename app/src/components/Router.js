@@ -20,7 +20,7 @@ export default props =>{
                 <Route exact path="/TimeLine">
                     <TimeLinePostPage />
                 </Route>
-                <Route exact path="/PostDetails/">
+                <Route exact path="/PostDetails/:postId">
                     <PostDetailsPage />
                 </Route>  
                 <Route path="/">
