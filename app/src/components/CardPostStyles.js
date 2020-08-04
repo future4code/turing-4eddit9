@@ -13,7 +13,7 @@ export const useStyles = makeStyles({
             color: "red",
             cursor: 'pointer'
         }
-    }
+    },
 })
 
 
@@ -78,4 +78,9 @@ export const PostComment = styled.div`
     display: flex;
     align-items: flex-end;
 
+`;
+
+export const LikeNumber = styled.div`
+    display: flex;
+    justify-content: center;
 `;
