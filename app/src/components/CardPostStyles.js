@@ -1,20 +1,5 @@
 import styled from 'styled-components';
-import {makeStyles} from '@material-ui/core/styles';
 
-export const useStyles = makeStyles({
-    arrowLikeIcon: {
-        '&:hover': {
-            color: "blue",
-            cursor: 'pointer'
-        }
-    },
-    arrowDislikeIcon: {
-        '&:hover': {
-            color: "red",
-            cursor: 'pointer'
-        }
-    },
-})
 
 
 export const Card = styled.div`
@@ -22,7 +7,7 @@ export const Card = styled.div`
     width: 32vw;
     border: solid 1px #CCCCCC;
     background-color: white;
-    margin: 0;
+    margin: 1vh;
     display: flex;
     justify-content: center;
 `;

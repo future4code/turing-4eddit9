@@ -10,46 +10,48 @@ import {
     PostTitle,
     PostText,
     PostComment,
-    useStyles } from './CardPostStyles';
+     } from './CardPostStyles';
 
+
+import {makeStyles} from '@material-ui/core/styles';
 import FaceIcon from '@material-ui/icons/Face';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CommentIcon from '@material-ui/icons/Comment';
 import { IconButton } from '@material-ui/core';
 
-
-
-//  [
-//     {
-//         userVoteDirection: 0,
-//         id: "060ArFua9saK6pXR7xfO",
-//         createdAt: 1591973880700,
-//         title: "novo post",
-//         commentsCount: 61,
-//         text: "teste",
-//         votesCount: 19,
-//         username: "Hendrix",
-//     }
-//    ]
-
+const useStyles = makeStyles({
+    arrowLikeIcon: {
+            color: props => { if(props.post.userVoteDirection === 1)  return 'blue' 
+                else return 'black' 
+        },
+            cursor: 'pointer'
+     
+    },
+    arrowDislikeIcon: {
+        color: props => { if(props.post.userVoteDirection === -1)  return 'red' 
+                else return 'black' 
+            },
+            cursor: 'pointer'
+        
+    },
+})
 
 
 
 export default props =>{
-    const classes = useStyles();
-    const {post} = props || [] 
+    const {post, vote} = props || {}
+    const classes = useStyles(props);
     
 
     return <Card>
-       {post.map( post =>{
-           return  <CardContent>
+       <CardContent>
             <LikeContainer>
-                    <ArrowUpwardIcon className={classes.arrowLikeIcon} />
+                    <ArrowUpwardIcon onClick={ () => vote(post.id, post.userVoteDirection, true) } className={classes.arrowLikeIcon} />
                         <LikeNumber>
                             {post.votesCount}
                         </LikeNumber>
-                    <ArrowDownwardIcon className={classes.arrowDislikeIcon}/>
+                    <ArrowDownwardIcon onClick={ () => vote(post.id, post.userVoteDirection, false) }  className={classes.arrowDislikeIcon}/>
             </LikeContainer>
             
             <PostContent>
@@ -69,9 +71,7 @@ export default props =>{
                     </IconButton>
                 </PostComment>
             </PostContent>
-
            </CardContent>
-       })}
     </Card>
 }
 
