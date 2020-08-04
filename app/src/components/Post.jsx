@@ -5,6 +5,7 @@ import {
     CardUserInfo, 
     CardContent, 
     LikeContainer,
+    LikeNumber,
     PostContent, 
     PostTitle,
     PostText,
@@ -15,6 +16,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CommentIcon from '@material-ui/icons/Comment';
+import { IconButton } from '@material-ui/core';
 
 
 
@@ -43,9 +45,11 @@ export default props =>{
        {post.map( post =>{
            return  <CardContent>
             <LikeContainer>
-                <ArrowUpwardIcon className={classes.arrowLikeIcon} />
-                        {post.votesCount}
-                <ArrowDownwardIcon className={classes.arrowDislikeIcon}/>
+                    <ArrowUpwardIcon className={classes.arrowLikeIcon} />
+                        <LikeNumber>
+                            {post.votesCount}
+                        </LikeNumber>
+                    <ArrowDownwardIcon className={classes.arrowDislikeIcon}/>
             </LikeContainer>
             
             <PostContent>
@@ -60,7 +64,9 @@ export default props =>{
                     {post.text}
                 </PostText>
                 <PostComment>
-                    <CommentIcon />
+                    <IconButton>
+                        <CommentIcon    />
+                    </IconButton>
                 </PostComment>
             </PostContent>
 
