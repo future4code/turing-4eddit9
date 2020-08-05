@@ -69,3 +69,8 @@ export const LikeNumber = styled.div`
     display: flex;
     justify-content: center;
 `;
+
+
+export const Comments = styled.div`
+    color: #757575;
+`;

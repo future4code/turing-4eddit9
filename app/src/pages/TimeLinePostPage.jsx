@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import Post from '../components/Post';
 import { ListItemText } from '@material-ui/core';
+import CreatePost from '../components/CreatePost';
 
 const Container = styled.div`
     height: fit-content;
@@ -20,6 +21,11 @@ const Container = styled.div`
     background-color: #DAE0E6;
 `;
 
+const LogOut = styled.button`
+    align-self: flex-end;
+
+`
+
 
 
 
@@ -29,6 +35,13 @@ export default props =>{
     const [post, setPost] = useState([]);
     const [token , setToken] = useState('');
     const [like , setLike] = useState('');
+    const history = useHistory();
+
+
+    const doLogOut = () =>{
+        localStorage.removeItem('token');
+        history.push('/')
+    }
 
     const getAllPost = (token) =>{
         const auth  = {
@@ -79,6 +92,8 @@ export default props =>{
     },[token,like])
 
     return <Container>
+            <LogOut onClick={doLogOut}>LogOut</LogOut>
+            <CreatePost token={token} getAllPost={getAllPost} />
             {post && post.map( post => {
                 return <Post 
                             key={post.id} 
