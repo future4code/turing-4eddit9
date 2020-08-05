@@ -92,7 +92,6 @@ const SendComment = styled.button `
 export default props => {
     const [postDetail, setPostDetail] = useState({});
     const [textComment, setTextComment] = useState("");
-    const [voteCount, setVoteCount] = useState(0);
 
     useEffect(() => {
         getPostDetail()
