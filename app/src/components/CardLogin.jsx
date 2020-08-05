@@ -59,6 +59,7 @@ export default props => {
                 placeholder={'Senha'} 
                 name={'password'}
                 value={password}
+                type='password'
                 onChange={onChange}
             />
             <button onClick={login}>Login</button>
