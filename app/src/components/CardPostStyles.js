@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 export const Card = styled.div`
-    height: 24vh;
+    height: fit-content;
     width: 32vw;
     border: solid 1px #CCCCCC;
     background-color: white;
