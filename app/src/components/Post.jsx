@@ -49,11 +49,11 @@ export default props =>{
     return <Card>
        <CardContent>
             <LikeContainer>
-                    <ArrowUpwardIcon onClick={ () => vote(post.id, post.userVoteDirection, true) } className={classes.arrowLikeIcon} />
+                    <ArrowUpwardIcon onClick={ () => vote(post.id, post.userVoteDirection, 'LIKE') } className={classes.arrowLikeIcon} />
                         <LikeNumber>
                             {post.votesCount}
                         </LikeNumber>
-                    <ArrowDownwardIcon onClick={ () => vote(post.id, post.userVoteDirection, false) }  className={classes.arrowDislikeIcon}/>
+                    <ArrowDownwardIcon onClick={ () => vote(post.id, post.userVoteDirection, 'DISLIKE') }  className={classes.arrowDislikeIcon}/>
             </LikeContainer>
             
             <PostContent>

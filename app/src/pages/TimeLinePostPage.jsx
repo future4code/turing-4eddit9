@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import { useHistory } from "react-router-dom";
-
 import axios from 'axios'
 
 import styled from 'styled-components';
@@ -10,6 +9,7 @@ import styled from 'styled-components';
 import Post from '../components/Post';
 import { ListItemText } from '@material-ui/core';
 import CreatePost from '../components/CreatePost';
+import {likeReducer } from '../components/Reducer'
 
 const Container = styled.div`
     height: fit-content;
@@ -27,15 +27,24 @@ const LogOut = styled.button`
 `
 
 
-
-
-   const url = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
+const url = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
 
 export default props =>{
     const [post, setPost] = useState([]);
     const [token , setToken] = useState('');
     const [like , setLike] = useState('');
     const history = useHistory();
+    const [state, dispatch] = useReducer(likeReducer,  {
+        actualDirection  : 0,
+        postId: ''
+    });
+
+    
+    const auth  = {
+        headers :{
+             Authorization: token
+        }
+    }
 
 
     const doLogOut = () =>{
@@ -44,12 +53,7 @@ export default props =>{
     }
 
     const getAllPost = (token) =>{
-        const auth  = {
-           headers :{
-                Authorization: token
-           }
-        }
-
+     
         axios
         .get(url, auth)
         .then( response => {
@@ -60,36 +64,38 @@ export default props =>{
     }
 
     const vote = (postId, actualDirection, like) =>{
-        let direction = actualDirection;
-        
-        if( direction === 1) like ? direction = 0 : direction = -1;
-        else if( direction === -1) like ? direction = +1 : direction = 0;                
-        else  like ? direction = +1 : direction = -1;
-        
-        const auth  = {
-           headers :{
-                Authorization: token
-           }
+        const action = {
+            type: like,
+            actualDirection,
+            postId,
         }
+        dispatch(action);
+    }
 
-        const body = {
-            'direction': direction,
-        }
-
+    function setComment() {
+        const body = { 'direction': state.actualDirection,}       
         axios
-        .put(`${url}/${postId}/vote`, body, auth)
+        .put(`${url}/${state.postId}/vote`,body, auth)
         .then( response => {
-            setLike(response.data)
+           getAllPost(token);
         })
         .catch(err => console.log(err.menssage) )
-    }
+   }
+    
+
 
 
     useEffect( () => {
         localStorage.getItem('token') && setToken(localStorage.getItem('token'));
         token && getAllPost(token);
      
-    },[token,like])
+    },[token])
+
+    
+    useEffect( () => {
+        state.postId && setComment();        
+    },[state.actualDirection,state.postId])
+
 
     return <Container>
             <LogOut onClick={doLogOut}>LogOut</LogOut>
