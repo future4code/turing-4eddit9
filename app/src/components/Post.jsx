@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
     Card, 
@@ -10,6 +11,7 @@ import {
     PostTitle,
     PostText,
     PostComment,
+    Comments,
      } from './CardPostStyles';
 
 
@@ -41,8 +43,8 @@ const useStyles = makeStyles({
 
 export default props =>{
     const {post, vote} = props || {}
+    const history = useHistory();
     const classes = useStyles(props);
-    
 
     return <Card>
        <CardContent>
@@ -66,9 +68,10 @@ export default props =>{
                     {post.text}
                 </PostText>
                 <PostComment>
-                    <IconButton>
-                        <CommentIcon    />
+                    <IconButton onClick={ () => history.push(`/PostDetails/${post.id}`)}>
+                        <CommentIcon/>
                     </IconButton>
+                        <Comments>{post.commentsCount}</Comments>
                 </PostComment>
             </PostContent>
            </CardContent>
