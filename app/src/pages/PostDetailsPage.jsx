@@ -1,104 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router';
+import { useHistory } from "react-router-dom";
 
+import FaceIcon from '@material-ui/icons/Face';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import CommentIcon from '@material-ui/icons/Comment';
 
-const ContainerDetailPage = styled.main `
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const UserContainer = styled.div `
-    width: 400px;
-    text-align: center;
-    border: 1px solid #000;
-    padding: 8px 15px;
-`;
-
-const UserName = styled.p `
-    font-size: 16px;
-    text-align: left;
-    margin: 0;
-    padding: 0;
-`;
-
-const TitleName = styled.p `
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
-    padding: 0;
-`;
-
-const TextPost = styled.p `
-    min-height: 200px;
-    text-align: left;
-`;
-
-const ActionContainer = styled.div `
-    display: flex;
-    justify-content: space-between;
-`;
-
-const VoteButtons = styled.div `
-    display: flex;
-    width: 60px;
-    justify-content: space-between;
-`;
-
-const Vote = styled.p `
-
-`;
-
-const AllComments = styled.p `
-
-`;
-
-const ContainerComments = styled.div `
-    display: flex;
-    flex-direction: column;
-    padding: 15px 0;
-`;
-
-const UserComment = styled.div `
-    width: 400px;
-    text-align: center;
-    border: 1px solid #000;
-    padding: 8px 15px;
-    margin-bottom: 5px;
-`;
-
-const CreateComment = styled.form `
-    width: 400px;
-    text-align: center;
-    border: 1px solid #000;
-    padding: 8px 15px;
-    margin: 15px 0 5px;
-    display: flex;
-    flex-direction: column;
-`;
-
-const InputComment = styled.textarea `
-    height: 60px;
-    resize: none;
-    margin-bottom: 5px;
-`;
-
-const SendComment = styled.button `
-
-`;
+import {
+useStyles,
+ContainerDetailPage,
+UserContainer,
+UserName,
+TitleName,
+TextPost,
+VoteButtons,
+Vote,
+AllComments,
+ContainerComments,
+DataComment,
+UserComment,
+CreateComment,
+InputComment,
+SendComment,
+LikeNumber,
+Post,
+Author
+} from './PostDetailPageStyle';
 
 export default props => {
     const [postDetail, setPostDetail] = useState({});
     const [textComment, setTextComment] = useState("");
+    const [like , setLike] = useState('');
+    const classes = useStyles(postDetail);
+
+    const history = useHistory();
 
     useEffect(() => {
         getPostDetail()
-    }, [])
+    }, [like])
 
     const pathParams = useParams();
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlNHdHZPSEdESzZ6OGZ4ajFXMHFRIiwidXNlcm5hbWUiOiJoeWFnbyIsImVtYWlsIjoiaHlhZ29AZ21haWwuY29tIiwiaWF0IjoxNTk2NDc3MDY5fQ.8rxreOavVUnMMzYSI19FpvzjnqKay8_tHGSjdetr7PE"
+    const token = localStorage.getItem('token')
     
     const getPostDetail = async () => {
         try {
@@ -161,29 +105,64 @@ export default props => {
           })
           .then(response => {
             getPostDetail()
-            console.log("bombou")
           }).catch(erro => {
             console.log(erro.message)
           })
     }
 
+    const vote = (actualDirection, like) =>{
+        let direction = actualDirection;
+        
+        if( direction === 1) like ? direction = 0 : direction = -1;
+        else if( direction === -1) like ? direction = +1 : direction = 0;                
+        else  like ? direction = +1 : direction = -1;
+        
+        const auth  = {
+           headers :{
+                Authorization: token
+           }
+        }
+
+        const body = {
+            'direction': direction,
+        }
+
+        axios
+        .put(`https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts/${pathParams.postId}/vote`, body, auth)
+        .then( response => {
+            setLike(response.data)
+        })
+        .catch(err => console.log(err.menssage) )
+    }
+
+    const backToList = () => {
+        history.push("/TimeLine");
+    }
+
     return (
         <ContainerDetailPage>
-            <button>Voltar</button>
+            <button onClick={backToList}>Voltar</button>
             <UserContainer>
-                <TitleName>{postDetail.title}</TitleName>
-                <UserName>Autor: {postDetail.username}</UserName>
-                <hr/>
-                <TextPost>{postDetail.text}</TextPost>
-                <hr/>
-                <ActionContainer>
-                    <VoteButtons>
-                        <Vote>^</Vote>
-                        <Vote>{postDetail.votesCount}</Vote>
-                        <Vote>v</Vote>
-                    </VoteButtons>
-                    <AllComments>{postDetail.commentsCount} comentários</AllComments>
-                </ActionContainer>
+                <VoteButtons>
+                    <ArrowUpwardIcon color={postDetail.userVoteDirection === 1 ? 'primary' : 'black'}
+                    onClick={ () => vote(postDetail.userVoteDirection, true) } className={classes.arrowLikeIcon} />
+                        <LikeNumber>
+                            {postDetail.votesCount}
+                        </LikeNumber>
+                    <ArrowDownwardIcon color={postDetail.userVoteDirection === -1 ? 'secondary' : 'black'}
+                    onClick={ () => vote(postDetail.userVoteDirection, false) }  className={classes.arrowDislikeIcon}/>
+                </VoteButtons>
+                <Post>
+                    <TitleName>{postDetail.title}</TitleName>
+                    <Author>
+                        <FaceIcon/>
+                        <UserName>Autor: {postDetail.username}</UserName>
+                    </Author>
+                    <hr/>
+                    <TextPost>{postDetail.text}</TextPost>
+                    <hr/>
+                    <AllComments> <CommentIcon />  {postDetail.commentsCount} comentários</AllComments>
+                </Post>
             </UserContainer>
             <CreateComment onSubmit={handleSendComment}>
                 <InputComment onChange={handleOnChangeComment} value={textComment} placeholder="Escreva um comentário" />
@@ -194,15 +173,18 @@ export default props => {
                 {postDetail.comments && postDetail.comments.map((comment) => {
                     return (
                         <UserComment key={comment.id}>
-                            <h4>{comment.username}</h4>
-                            <hr/>
-                            <p>{comment.text}</p>
-                            <hr/>
                             <VoteButtons>
-                                <Vote onClick={() => handleVoteCount(comment.id, comment.userVoteDirection, true)}>^</Vote>
+                                <ArrowUpwardIcon color={comment.userVoteDirection === 1 ? 'primary' : 'black'}
+                                onClick={() => handleVoteCount(comment.id, comment.userVoteDirection, true)} className={classes.arrowLikeIconComment} />
                                 <Vote>{comment.votesCount}</Vote>
-                                <Vote onClick={() => handleVoteCount(comment.id, comment.userVoteDirection, false)}>v</Vote>
+                                <ArrowDownwardIcon color={comment.userVoteDirection === -1 ? 'secondary' : 'black'}
+                                onClick={() => handleVoteCount(comment.id, comment.userVoteDirection, false)} className={classes.arrowDislikeIconComment} />
                             </VoteButtons>
+                            <DataComment>
+                                <h4>{comment.username}</h4>
+                                <hr/>
+                                <p>{comment.text}</p>
+                            </DataComment>
 
                         </UserComment>
                     )
