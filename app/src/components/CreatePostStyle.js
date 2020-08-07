@@ -17,7 +17,7 @@ export const Form = styled.form`
     width: fit-content;
 `;
 
-export const ButtonCreate = styled(Button)`
+export const ButtonCreate = styled.button`
     align-self: center;
     width: 120px;
     height: 30px;

@@ -49,8 +49,6 @@ export default props => {
         {},
         "post"
     );
-
-    console.log(postDetail);
     
     const classes = useStyles(postDetail);
 
