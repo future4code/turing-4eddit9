@@ -10,6 +10,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CommentIcon from '@material-ui/icons/Comment';
 
+
 import {
 useStyles,
 ContainerDetailPage,
@@ -170,7 +171,7 @@ export default props => {
             </UserContainer>
             <CreateComment onSubmit={handleSendComment}>
                 <InputComment name="comment" onChange={handleOnChangeComment} value={form.comment} placeholder="Escreva um comentário" />
-                <SendComment>Comentar</SendComment>
+                <SendComment variant="contained" color="primary">Comentar</SendComment>
             </CreateComment>
             <ContainerComments>
                 <h3>Comentários</h3>

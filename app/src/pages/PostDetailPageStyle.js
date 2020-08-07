@@ -124,8 +124,8 @@ export const InputComment = styled.textarea `
     margin-bottom: 5px;
 `;
 
-export const SendComment = styled.button `
-
+export const SendComment = styled(Button) `
+    height: 25px;
 `;
 
 export const LikeNumber = styled.p `
