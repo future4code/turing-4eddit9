@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { Paper } from '@material-ui/core';
 
 
 
-export const Card = styled.div`
+export const Card = styled(Paper)`
+    padding: 20px;
     height: fit-content;
     width: 32vw;
     border: solid 1px #CCCCCC;
@@ -23,7 +25,7 @@ export const LikeContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: baseline;
-    height: 100%;
+    align-self: center;
     margin-right: 1vw;
 `; 
 

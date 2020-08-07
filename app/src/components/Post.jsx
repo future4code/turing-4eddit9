@@ -57,13 +57,13 @@ export default props =>{
             </LikeContainer>
             
             <PostContent>
+                <PostTitle>
+                    <b>{post.title}</b>
+                </PostTitle>
                 <CardUserInfo>
                         <FaceIcon/>
                         <i>{post.username}</i>
                 </CardUserInfo>
-                <PostTitle>
-                    <b>{post.title}</b>
-                </PostTitle>
                 <PostText>
                     {post.text}
                 </PostText>

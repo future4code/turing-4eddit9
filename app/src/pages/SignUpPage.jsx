@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom'
-import styled from 'styled-components';
 import axios from 'axios';
 import useForm from './../components/useForm';
+
+import styled from 'styled-components';
+import { Button } from '@material-ui/core';
+
+const ButtonSingUp = styled(Button)`
+    height: 25px;
+`;
+
+const ButtonLogin = styled(Button)`
+    width: 30px;
+    height: 30px;
+`;
 
 const ContainerSignUp = styled.div `
     width: 98vw;
@@ -99,8 +110,8 @@ export default props =>{
                         type='password'
                         onChange={handleDataUser}
                     />
-                    <button>Cadastre-se</button>
-                    <Text>Já possuí conta? Faça o login <button onClick={() => history.push('/')} >Login</button></Text>
+                    <ButtonSingUp variant="contained" color="primary">Cadastre-se</ButtonSingUp>
+                    <Text>Já possuí conta? Faça o login <ButtonLogin variant="text" color="primary" onClick={() => history.push('/')} >Login</ButtonLogin></Text>
                     </ContainerForm>
                 </Card>
             </ContainerSignUp> :

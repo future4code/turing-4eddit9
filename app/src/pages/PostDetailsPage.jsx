@@ -28,7 +28,10 @@ InputComment,
 SendComment,
 LikeNumber,
 Post,
-Author
+Author,
+LogOut,
+BackToList,
+Line
 } from './PostDetailPageStyle';
 
 export default props => {
@@ -134,9 +137,15 @@ export default props => {
         history.push("/TimeLine");
     }
 
+    const doLogOut = () =>{
+        localStorage.removeItem('token');
+        history.push('/')
+    }
+
     return (
         <ContainerDetailPage>
-            <button onClick={backToList}>Voltar</button>
+            <LogOut variant="outlined" color="secondary" onClick={doLogOut}>LogOut</LogOut>
+            <BackToList variant="contained" color="secondary"  onClick={backToList}>Voltar</BackToList>
             <UserContainer>
                 <VoteButtons>
                     <ArrowUpwardIcon color={postDetail.userVoteDirection === 1 ? 'primary' : 'black'}
@@ -153,9 +162,9 @@ export default props => {
                         <FaceIcon/>
                         <UserName>Autor: {postDetail.username}</UserName>
                     </Author>
-                    <hr/>
+                    <Line/>
                     <TextPost>{postDetail.text}</TextPost>
-                    <hr/>
+                    <Line/>
                     <AllComments> <CommentIcon />  {postDetail.commentsCount} comentários</AllComments>
                 </Post>
             </UserContainer>

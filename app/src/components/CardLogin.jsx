@@ -7,6 +7,8 @@ import {
     Card,
     Input,
     Text,
+    ButtonLogin,
+    ButtonSingUp
 
     } from './CardLoginStyle'
 
@@ -62,8 +64,8 @@ export default props => {
                 type='password'
                 onChange={onChange}
             />
-            <button onClick={login}>Login</button>
-            <Text>Ainda não possui conta ? <button onClick={() => history.push('/SignUp')} >Cadastre-se</button></Text>
+            <ButtonLogin variant="contained" color="primary" onClick={login}>Login</ButtonLogin>
+            <Text>Ainda não possui conta ? <ButtonSingUp variant="text" color="primary" onClick={() => history.push('/SignUp')} >Cadastre-se</ButtonSingUp></Text>
         </Card> :
             history.push('/TimeLine')
         }

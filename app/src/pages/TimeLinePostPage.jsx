@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 
 import Post from '../components/Post';
-import { ListItemText } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import CreatePost from '../components/CreatePost';
 import {likeReducer } from '../components/Reducer'
 
@@ -21,7 +21,7 @@ const Container = styled.div`
     background-color: #DAE0E6;
 `;
 
-const LogOut = styled.button`
+const LogOut = styled(Button)`
     align-self: flex-end;
 
 `
@@ -98,7 +98,7 @@ export default props =>{
 
 
     return <Container>
-            <LogOut onClick={doLogOut}>LogOut</LogOut>
+            <LogOut variant="outlined" color="secondary" onClick={doLogOut}>LogOut</LogOut>
             <CreatePost token={token} getAllPost={getAllPost} />
             {post && post.map( post => {
                 return <Post 

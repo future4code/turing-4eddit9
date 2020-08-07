@@ -1,6 +1,14 @@
 import styled from 'styled-components';
+import { Button } from '@material-ui/core';
 
+export const ButtonLogin = styled(Button)`
+    width: 70px;
+    height: 30px;
+`;
 
+export const ButtonSingUp = styled(Button)`
+    height: 25px;
+`;
 
 export const Card = styled.div`
     width: 24vw;
