@@ -67,6 +67,7 @@ export const Vote = styled.p `
 export const AllComments = styled.p `
     display: flex;
     justify-content: flex-end;
+    margin-right: 15px;
 `;
 
 export const ContainerComments = styled.div `

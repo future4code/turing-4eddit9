@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom'
 import styled from 'styled-components';
 import axios from 'axios';
+import useForm from './../components/useForm';
 
 const ContainerSignUp = styled.div `
     width: 98vw;
@@ -39,23 +40,24 @@ const Text = styled.p`
 
 
 export default props =>{
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, SetPassword] = useState("");
+    const {form, onChange, resetForm} = useForm({
+        username: "",
+        email: "",
+        password: ""
+    });
+
     const history = useHistory();
 
     const signUp = (event) =>{
         event.preventDefault();
 
         const body = {
-            username,
-            email,
-            password,
+            username: form.username,
+            email: form.email,
+            password: form.password,
         }
         axios.post("https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup", body)
         .then( response => {
-            setEmail('');
-            SetPassword('');
             alert("Cadastro Efetuado com sucesso")
             history.push('/');
         }).catch(error => {
@@ -63,19 +65,9 @@ export default props =>{
         })
     }
 
-    const onChange = event =>{
-        const {name, value} = event.target;
-        switch(name){
-            case 'username':
-                setUsername(value);
-                break;
-            case 'email':
-                setEmail(value);
-                break;
-            case 'password':
-                SetPassword(value);
-                break;
-        }
+    const handleDataUser = event => {
+        const { name, value } = event.target;
+        onChange(name, value)
     }
 
     return (
@@ -88,24 +80,24 @@ export default props =>{
                     <Input
                         required 
                         placeholder={'Nome do usuário'} 
-                        value={username} 
+                        value={form.username} 
                         name={'username'}
-                        onChange={onChange}
+                        onChange={handleDataUser}
                     />
                     <Input 
                         required
                         placeholder={'Email'} 
-                        value={email} 
+                        value={form.email} 
                         name={'email'}
-                        onChange={onChange}
+                        onChange={handleDataUser}
                     />
                     <Input 
                         required
                         placeholder={'Senha'} 
                         name={'password'}
-                        value={password}
+                        value={form.password}
                         type='password'
-                        onChange={onChange}
+                        onChange={handleDataUser}
                     />
                     <button>Cadastre-se</button>
                     <Text>Já possuí conta? Faça o login <button onClick={() => history.push('/')} >Login</button></Text>

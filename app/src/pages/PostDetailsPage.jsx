@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { useHistory } from "react-router-dom";
+import usePosts from './../components/usePosts';
+import useForm from './../components/useForm';
 
 import FaceIcon from '@material-ui/icons/Face';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
@@ -30,38 +32,30 @@ Author
 } from './PostDetailPageStyle';
 
 export default props => {
-    const [postDetail, setPostDetail] = useState({});
-    const [textComment, setTextComment] = useState("");
     const [like , setLike] = useState('');
-    const classes = useStyles(postDetail);
+    
 
     const history = useHistory();
-
-    useEffect(() => {
-        getPostDetail()
-    }, [like])
 
     const pathParams = useParams();
     const token = localStorage.getItem('token')
     
-    const getPostDetail = async () => {
-        try {
-            const response = await axios.get(
-                `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts/${pathParams.postId}`, {
-                    headers: {
-                        Authorization: token
-                    }
-                })
-            setPostDetail(response.data.post)
-        } catch(error) {
-            console.log(error.message)
-        }
-    };
+    const [postDetail, getPost] = usePosts(
+        `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts/${pathParams.postId}`,
+        {},
+        "post"
+    );
+
+    console.log(postDetail);
+    
+    const classes = useStyles(postDetail);
+
+    const { form, onChange, resetForm } = useForm({comment: ""})
 
     const handleSendComment = (event) => {
         event.preventDefault();
         const body = {
-        text: textComment
+        text: form.comment
     }
 
     axios.post(
@@ -72,8 +66,8 @@ export default props => {
         }
       })
       .then(response => {
-        getPostDetail()
-        setTextComment("");
+        getPost();
+        resetForm();
       }).catch(erro => {
         console.log(erro.message)
       })
@@ -81,7 +75,8 @@ export default props => {
     }
 
     const handleOnChangeComment = (e) => {
-        setTextComment(e.target.value)
+        const { name, value } = e.target;
+        onChange(name, value)
     }
 
     
@@ -104,7 +99,7 @@ export default props => {
             }
           })
           .then(response => {
-            getPostDetail()
+            getPost()
           }).catch(erro => {
             console.log(erro.message)
           })
@@ -165,7 +160,7 @@ export default props => {
                 </Post>
             </UserContainer>
             <CreateComment onSubmit={handleSendComment}>
-                <InputComment onChange={handleOnChangeComment} value={textComment} placeholder="Escreva um comentário" />
+                <InputComment name="comment" onChange={handleOnChangeComment} value={form.comment} placeholder="Escreva um comentário" />
                 <SendComment>Comentar</SendComment>
             </CreateComment>
             <ContainerComments>
