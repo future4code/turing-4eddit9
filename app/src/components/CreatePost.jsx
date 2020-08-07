@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
-
 import {
     Container,
     Form,
-    Button,
+    ButtonCreate,
     InputTitle,
     InputText,
 
@@ -70,7 +69,7 @@ export default props =>{
                     rows="5"
                     required={true}
                 />
-                <Button>Criar Post</Button>
+                <ButtonCreate variant="contained" color="primary">Criar Post</ButtonCreate>
             </Form>
         </Container>
     );

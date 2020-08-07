@@ -1,6 +1,22 @@
 import styled from 'styled-components';
 import {makeStyles} from '@material-ui/core/styles';
+import { Button, Paper } from '@material-ui/core';
 
+export const LogOut = styled(Button)`
+    align-self: flex-end;
+    margin-right: 15px;
+    margin-top: 15px;
+    color: red;
+`
+
+export const BackToList = styled(Button)`
+    height: 25px;
+    width: 30px;
+`;
+
+export const Line = styled.hr`
+    width: 340px;
+`;
 
 export const useStyles = makeStyles({
     arrowLikeIcon: {
@@ -26,12 +42,13 @@ export const ContainerDetailPage = styled.main `
     background-color: #DAE0E6;
 `;
 
-export const UserContainer = styled.div `
+export const UserContainer = styled(Paper) `
     width: 450px;
     border: solid 1px #CCCCCC;
     padding: 10px 0;
     display: flex;
     background-color: #fff;
+    margin-top: 10px;
 `;
 
 export const UserName = styled.p `

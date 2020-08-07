@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { Button, Paper } from '@material-ui/core'
 
-
-export const Container = styled.div`
+export const Container = styled(Paper)`
     height: fit-content;
     width: fit-content;
     display: flex;
     flex-direction: column;
+    padding: 15px;
 `;
 
 export const Form = styled.form`
@@ -16,9 +17,10 @@ export const Form = styled.form`
     width: fit-content;
 `;
 
-export const Button = styled.button`
+export const ButtonCreate = styled(Button)`
     align-self: center;
-    margin: 1vh;
+    width: 120px;
+    height: 30px;
 `
 
 export const InputTitle = styled.input`
@@ -30,4 +32,5 @@ export const InputTitle = styled.input`
 
 export const InputText = styled.textarea`
     resize: none;
+    margin-bottom: 5px;
 `;
