@@ -26,7 +26,6 @@ const LogOut = styled(Button)`
 
 `
 
-
 const url = 'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
 
 export default props =>{
@@ -38,8 +37,7 @@ export default props =>{
         actualDirection  : 0,
         postId: ''
     });
-
-    
+        
     const auth  = {
         headers :{
              Authorization: token
